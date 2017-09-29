@@ -6,10 +6,11 @@
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/@async-generators/equal/-/equal-0.2.1.tgz#54c74f42c97e5a045e8cf954a80d0bbb32381a21"
 
-"@async-generators/subject@^0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@async-generators/subject/-/subject-0.1.0.tgz#e77f1cb7ec50a25c0ba348ca09a637ce474fb877"
+"@async-generators/subject@^0.2.1":
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/@async-generators/subject/-/subject-0.2.1.tgz#19836ad57953506101c925a851ace50e449fad6d"
   dependencies:
+    "@async-generators/terminator" "^0.2.0"
     events "^1.1.1"
 
 "@async-generators/terminator@^0.2.0":
