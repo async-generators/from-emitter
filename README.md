@@ -32,8 +32,8 @@ source must be a node-js compliment event emitter, with the `addListener ` and `
 
 example.js
 ```js
-import fromEmitter from '@async-generators/from-emitter';
-import { EventEmitter } from 'events';
+const fromEmitter = require('./dist/commonjs').default;
+const {EventEmitter} = require('events');
 
 async function main() {
   let events = new EventEmitter();
