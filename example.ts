@@ -1,33 +1,23 @@
-import { EventEmitter } from 'events';
-import Subject from '@async-generators/subject';
 
 import fromEvents from './src';
-
-let events = new EventEmitter();
-let source = fromEvents(events, "data", "booboo", "close", (_, d) => d);
+import { EventEmitter } from 'events';
 
 async function main() {
-  let consumer = new Promise(async (r, x) => {
-    try {
-      for await (let item of source) {
-        console.log(item);
-      }
-      console.log("...and we're done!")
-    } catch (e) {
-      console.log("uh oh...")
-      x(e)
+  let events = new EventEmitter();
+  let source = fromEvents(events, "data", "error", "close");
+  let consumer = new Promise(async done => {
+    for await (let item of source) {
+      console.log(item);
     }
-    r();
+    console.log("...and we're done!")
+    done();
   });
 
-  events.emit("data", null, 1);
-  events.emit("data", null, 2);
-  events.emit("data", null, 3);
-  events.emit("data", null, 4);
-  events.emit("done");
-  await new Promise(r => setTimeout(r, 10));
-
-  //events.emit("booboo", new Error("mr poopie pants"));
+  events.emit("data", 1);
+  events.emit("data", 2);
+  events.emit("data", 3);
+  events.emit("data", 4);
+  events.emit("close");
 
   await consumer;
 }

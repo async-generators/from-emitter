@@ -1,4 +1,4 @@
-# from-events
+# from-emitter
 [![logo](https://avatars1.githubusercontent.com/u/31987273?v=4&s=100)][async-url]
 
 inform an iterable when it is prematurely terminated by the consumer. 
@@ -13,7 +13,7 @@ _package requires a system that supports async-iteration, either natively or via
 
 ### Install
 ```
-yarn add @async-generators/from-events
+yarn add @async-generators/from-emitter
 ```
 
 This package's `main` entry points to a `commonjs` distribution. 
@@ -22,9 +22,9 @@ Additionally, the `module` entry points to a `es2015` distribution, which can be
 
 ## Api
 
-### from-events(emitter, onNext, onError, onDone )
+### from-emitter(emitter, onNext, onError, onDone [,selectNext][,selectError])
 
-<code>from-events()</code> returns an iterable sequence of captured events. If emitter emits `onError`, the output iterable will rethrow the error. both `onError` and `onDone` terminate the iterable and detaches the event listeners from the `emitter`. 
+<code>from-emitter()</code> subscribes to `onNext`, `onError` and `onDone` and returns a (one-time) iterable-sequence of captured events. When the event listeners are called, the arguments are passed to `selectNext(...args)` and `selectError(...args)` to pick a value (defaults to the first argument). If the sequence completes (`onDone`), or the consumer terminates early, the event listeners are detached from the emitter and the iterable becomes disposed and cannot be iterated again.  
 
 source must be a node-js compliment event emitter, with the `addListener ` and `removeListener` methods. 
 
@@ -32,34 +32,25 @@ source must be a node-js compliment event emitter, with the `addListener ` and `
 
 example.js
 ```js
+import fromEmitter from '@async-generators/from-emitter';
 import { EventEmitter } from 'events';
-import fromEvents from '@async-generators/from-events';
-
-let events = new EventEmitter();
-let source = fromEvents(events, "data", "booboo", "close");
 
 async function main() {
-  let consumer = new Promise(async (r, x) => {
-    try {
-      for await (let item of source) {
-        console.log(item);
-      }
-      console.log("...and we're done!")
-    } catch (e) { 
-      console.log("uh oh...")
-      x(e)
-     }
-    r();
+  let events = new EventEmitter();
+  let source = fromEmitter(events, "data", "error", "close");
+  let consumer = new Promise(async done => {
+    for await (let item of source) {
+      console.log(item);
+    }
+    console.log("...and we're done!")
+    done();
   });
 
   events.emit("data", 1);
   events.emit("data", 2);
   events.emit("data", 3);
   events.emit("data", 4);
-
-  await new Promise(r=>setTimeout(r, 10));
-
-  events.emit("booboo", new Error("mr poopie pants"));
+  events.emit("close");
 
   await consumer;
 }
@@ -79,17 +70,14 @@ output:
 2
 3
 4
-uh oh...
-Error: mr poopie pants
-    at main (D:\Code\async-generators\from-event-handler\example.ts:30:25)
-    at <anonymous>
+...and we're done!
 ```
 ## Typescript
 
 This library is fully typed and can be imported using: 
 
 ```ts
-import fromEvents from '@async-generators/from-events');
+import fromEmitter from '@async-generators/from-emitter');
 ```
 
 It is also possible to directly execute your [properly configured](https://stackoverflow.com/a/43694282/1657476) typescript with [ts-node](https://www.npmjs.com/package/ts-node):
@@ -98,11 +86,11 @@ It is also possible to directly execute your [properly configured](https://stack
 ts-node --harmony_async_iteration example.ts
 ```
 
-[npm-url]: https://npmjs.org/package/@async-generators/from-events
-[npm-image]: https://img.shields.io/npm/v/@async-generators/from-events.svg
-[npm-downloads]: https://img.shields.io/npm/dm/@async-generators/from-events.svg
-[travis-url]: https://travis-ci.org/async-generators/from-events
-[travis-image]: https://img.shields.io/travis/async-generators/from-events/master.svg
-[codecov-url]: https://codecov.io/gh/async-generators/from-events
-[codecov-image]: https://codecov.io/gh/async-generators/from-events/branch/master/graph/badge.svg
+[npm-url]: https://npmjs.org/package/@async-generators/from-emitter
+[npm-image]: https://img.shields.io/npm/v/@async-generators/from-emitter.svg
+[npm-downloads]: https://img.shields.io/npm/dm/@async-generators/from-emitter.svg
+[travis-url]: https://travis-ci.org/async-generators/from-emitter
+[travis-image]: https://img.shields.io/travis/async-generators/from-emitter/master.svg
+[codecov-url]: https://codecov.io/gh/async-generators/from-emitter
+[codecov-image]: https://codecov.io/gh/async-generators/from-emitter/branch/master/graph/badge.svg
 [async-url]: https://github.com/async-generators
