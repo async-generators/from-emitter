@@ -7,19 +7,32 @@ export type EventEmitter = {
 
 export default function <T>(
   emitter: EventEmitter,
-  onNext: string = "next",
-  onError: string = "error",
-  onDone: string = "done",
-  selectNext: (...any) => T = (x) => x as T,
-  selectError: (...any) => any = (x) => x
+  opts?: {
+    onNext?: string
+    onError?: string,
+    onDone?: string,
+    selectNext?: (...any) => T,
+    selectError?: (...any) => any,
+    dispose?: () => void,
+  }
 ): AsyncIterable<T> {
+
+  let _opts = Object.assign({
+    onNext: "next",
+    onError: "error",
+    onDone: "done",
+    selectNext: (x) => x as T,
+    selectError: (x) => x,
+    dispose: () => { }
+  }, opts);
+
   let subject = Subject<T>();
   let disposed = false;
 
-  const nextListener = (...args) => subject.next(selectNext(...args));
+  const nextListener = (...args) => subject.next(_opts.selectNext(...args));
   const errorListener = (...args) => {
     if (disposed) return;
-    subject.error(selectError(...args));
+    subject.error(_opts.selectError(...args));
     dispose();
   }
   const doneListener = () => {
@@ -29,15 +42,16 @@ export default function <T>(
   }
 
   const dispose = () => {
-    emitter.removeListener(onNext, nextListener);
-    emitter.removeListener(onError, errorListener);
-    emitter.removeListener(onDone, doneListener);
+    emitter.removeListener(_opts.onNext, nextListener);
+    emitter.removeListener(_opts.onError, errorListener);
+    emitter.removeListener(_opts.onDone, doneListener);
+    _opts.dispose();    
     disposed = true;;
   }
 
-  emitter.addListener(onNext, nextListener);
-  emitter.addListener(onError, errorListener);
-  emitter.addListener(onDone, doneListener);
+  emitter.addListener(_opts.onNext, nextListener);
+  emitter.addListener(_opts.onError, errorListener);
+  emitter.addListener(_opts.onDone, doneListener);
 
   subject.on("disposed", () => dispose());
 

@@ -1,10 +1,13 @@
 
-import fromEvents from './src';
+import fromEmitter from './src';
 import { EventEmitter } from 'events';
+import { Readable } from 'stream';
+
 
 async function main() {
   let events = new EventEmitter();
-  let source = fromEvents(events, "data", "error", "close");
+  let source = fromEmitter(events, {onNext:"data", onError:"error", onDone:"close"});
+  
   let consumer = new Promise(async done => {
     for await (let item of source) {
       console.log(item);
