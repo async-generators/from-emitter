@@ -7,22 +7,14 @@ inform an iterable when it is prematurely terminated by the consumer.
 [![Travis Status][travis-image]][travis-url]
 [![Travis Status][codecov-image]][codecov-url]
 
-## Usage
-
-_package requires a system that supports async-iteration, either natively or via down-compiling_
-
 ### Install
 ```
 yarn add @async-generators/from-emitter
 ```
 
-This package's `main` entry points to a `commonjs` distribution. 
+## Exports
 
-Additionally, the `module` entry points to a `es2015` distribution, which can be used by build systems, such as webpack, to directly use es2015 modules. 
-
-## Api
-
-### from-emitter(emitter, onNext, onError, onDone [,selectNext][,selectError])
+### (default) from-emitter(emitter, onNext, onError, onDone [,selectNext][,selectError])
 
 <code>from-emitter()</code> subscribes to `onNext`, `onError` and `onDone` and returns a (one-time) iterable-sequence of captured events. When the event listeners are called, the arguments are passed to `selectNext(...args)` and `selectError(...args)` to pick a value (defaults to the first argument). If the sequence completes (`onDone`), or the consumer terminates early, the event listeners are detached from the emitter and the iterable becomes disposed and cannot be iterated again.  
 
@@ -61,7 +53,8 @@ main().catch(console.log);
 Execute with the latest node.js: 
 
 ```
-node --harmony-async-iteration example.js
+node example.js // or...
+node --harmony-async-iteration example.js 
 ```
 
 output:

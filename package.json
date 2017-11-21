@@ -44,9 +44,8 @@
   },
   "scripts": {
     "test": "nyc node_modules/mocha/bin/mocha --harmony-async-iteration --require source-map-support/register --compilers ts:ts-node/register test/*.ts",
-    "build": "npm run build:commonjs && npm run build:es2015",
+    "build": "npm run build:commonjs",
     "build:commonjs": "tsc --project tsconfig.build.json --rootDir src/ --outDir ./dist/commonjs",
-    "build:es2015": "tsc --project tsconfig.build.json --rootDir src/ --outDir ./dist/es2015 --module es2015",
     "cover": "codecov"
   },
   "engines": {
