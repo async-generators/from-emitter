@@ -1,7 +1,7 @@
 {
   "name": "@async-generators/from-emitter",
   "description": "convert an event-emitter to an async-iterable ",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "author": {
     "name": "Meirion Hughes",
     "email": "crakinshot@yahoo.com",
