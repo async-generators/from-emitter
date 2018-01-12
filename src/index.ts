@@ -1,3 +1,5 @@
+if(Symbol["asyncIterator"] === undefined) ((<any>Symbol)["asyncIterator"]) = Symbol.for("asyncIterator");
+
 import Subject from '@async-generators/subject';
 
 export type EventEmitter = {

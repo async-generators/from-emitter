@@ -28,8 +28,7 @@
     "url": "https://github.com/async-generators/from-emitter/issues"
   },
   "devDependencies": {
-    "@async-generators/equal": "^0.2.1",
-    "@async-generators/timeout": "^0.1.0",
+    "@async-generators/equal": "^0.6.1",
     "@types/chai": "^4.0.4",
     "@types/mocha": "^2.2.43",
     "@types/node": "^8.0.31",
@@ -71,7 +70,7 @@
     "instrument": true
   },
   "dependencies": {
-    "@async-generators/subject": "^0.2.1",
-    "@async-generators/terminator": "^0.2.0"
+    "@async-generators/subject": "^0.3.1",
+    "@async-generators/terminator": "^0.3.1"
   }
 }

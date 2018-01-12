@@ -1,5 +1,5 @@
-import equal from '@async-generators/equal';
 import fromEmitter from '../src';
+import equal from '@async-generators/equal';
 import { expect } from 'chai';
 import { EventEmitter } from 'events';
 
