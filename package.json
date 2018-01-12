@@ -42,7 +42,7 @@
     "typescript": "^2.5.2"
   },
   "scripts": {
-    "test": "nyc node_modules/mocha/bin/mocha --harmony-async-iteration --require source-map-support/register --compilers ts:ts-node/register test/*.ts",
+    "test": "nyc node_modules/mocha/bin/mocha --require source-map-support/register --compilers ts:ts-node/register test/*.ts",
     "build": "npm run build:commonjs",
     "build:commonjs": "tsc --project tsconfig.build.json --rootDir src/ --outDir ./dist/commonjs",
     "cover": "codecov"

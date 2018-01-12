@@ -23,10 +23,6 @@
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/@async-generators/terminator/-/terminator-0.3.1.tgz#323866ae30236fc08f1ff2bf27693521d8640655"
 
-"@async-generators/timeout@^0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@async-generators/timeout/-/timeout-0.2.0.tgz#1398047c91003be43614f790020e152e7a03556a"
-
 "@types/chai@^4.0.4":
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/@types/chai/-/chai-4.1.0.tgz#d9008fa4c06f6801f93396d121f0227cd4244ac6"
